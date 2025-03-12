@@ -1,4 +1,4 @@
-/WIP-030925
+/snacksnap
 │── /client         (Frontend: React + Vite + TypeScript)
 │   ├── src/
 │   ├── tsconfig.app.json
