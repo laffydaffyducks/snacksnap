@@ -1,37 +1,3 @@
-# Ignore node_modules directory
 node_modules/
-
-# Ignore environment variables
-.env
-.env.local
-.env.development
-.env.production
-.env.test
-
-# Ignore package-lock.json (if you don't want to commit it)
 package-lock.json
-yarn.lock
-pnpm-lock.yaml
-
-# Ignore TypeScript build artifacts
-dist/
-out/
-build/
-
-# Ignore logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Ignore VSCode settings
-.vscode/
-
-# Ignore macOS system files
-.DS_Store
-
-# Ignore temporary files
-*.tmp
-*.swp
+.env
