@@ -1,10 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import axios from "axios";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [response, setResponse] = useState("");
+
+  const sendMessage = async () => {
+    try {
+      const res = await axios.post("http://localhost:3000/api", {
+        text: "Hello from React!",
+      });
+      setResponse(res.data.message);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
 
   return (
     <>
@@ -21,15 +34,16 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <button onClick={sendMessage} style={{ marginTop: "10px" }}>
+          Send Message to Backend
+        </button>
+        {response && <p>Response: {response}</p>}
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
