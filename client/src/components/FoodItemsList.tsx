@@ -20,9 +20,15 @@ const FoodItemsList: React.FC = () => {
     setFoodItems(newFoodItems);
   };
 
+  const handleDeleteItem = (index: number) => {
+    const newFoodItems = foodItems.filter((_, i) => i !== index);
+    setFoodItems(newFoodItems);
+  };
+
   const handleSubmit = () => {
     //handler to submit items to the backend
   };
+
   return (
     <div>
       <h1>Food Items List</h1>
@@ -53,6 +59,9 @@ const FoodItemsList: React.FC = () => {
                     handleInputChange(index, 'portion', e.target.value)
                   }
                 />
+              </td>
+              <td>
+                <button onClick={() => handleDeleteItem(index)}>Delete</button>
               </td>
             </tr>
           ))}
