@@ -4,6 +4,7 @@ import './UploadImage.css';
 
 interface DropzoneFile extends File {
   preview: string;
+  handle: FileSystemFileHandle | undefined;
 }
 
 const UploadImage: React.FC = () => {
@@ -21,8 +22,9 @@ const UploadImage: React.FC = () => {
   const handleDrop = (acceptedFiles: File[]) => {
     // when users drop the image, will map through  the file and create array object with image details, including URL blob of image
     const previewFiles: DropzoneFile[] = acceptedFiles.map((file) => ({
+      handle: undefined,
       ...file,
-      preview: URL.createObjectURL(file),
+      preview: URL.createObjectURL(file)!,
     }));
 
     // Set the first file preview to state
@@ -35,19 +37,17 @@ const UploadImage: React.FC = () => {
 
     // setIsProcessing(true);
 
-    const imageToProcess: File = previewFiles[0];
+    const imageToProcess: DropzoneFile = previewFiles[0];
 
     handleImageProcessing(imageToProcess);
     setIsProcessing(false);
   };
 
-  async function handleImageProcessing(file: {
-    handle: FileSystemFileHandle;
-    preview: string;
-  }) {
+  async function handleImageProcessing(file: DropzoneFile) {
     try {
       // Access the FileSystemFileHandle from the object
-      const fileHandle = file.handle;
+      const fileHandle = file.handle!;
+      console.log('fileHandle: ', fileHandle);
       // Get the File object
       const fileObj = await fileHandle.getFile();
 

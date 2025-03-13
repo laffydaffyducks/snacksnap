@@ -26,7 +26,7 @@ const ResultsContainer: React.FC = () => {
         <button onClick={() => setView('macro')}>Macro Tab</button>
       </div>
       {view === 'nutrition' ? (
-        <NutritionTab />
+        <NutritionTab nutritionData={nutritionData} />
       ) : (
         <MacroTab nutritionData={nutritionData} />
       )}

@@ -18,10 +18,10 @@ const MacroTab: React.FC<MacroTabProps> = ({ nutritionData }) => {
       {nutritionData.map((data, index) => (
         <div key={index}>
           <h3>{data.nutritionName}</h3>
-          <PieChart 
-            userIntake={data.userIntake} 
-            recommendIntake={data.recommendIntake} 
-            unit={data.unit} 
+          <PieChart
+            nutritionName={data.nutritionName}
+            userIntake={data.userIntake}
+            recommendIntake={data.recommendIntake}
           />
         </div>
       ))}
