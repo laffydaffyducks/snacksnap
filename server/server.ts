@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { parseImage } from "./controllers/userQueryController";
+import { upload } from "./controllers/userQueryController";
 
 // manually defining __dirname and __filename for CommonJS usage
 const __filename = fileURLToPath(import.meta.url);
@@ -21,7 +22,7 @@ app.get("/", (req, res) => {
 });
 
 // Handle POST request from frontend
-app.post("/api", parseImage, (req, res) => {
+app.post("/api", upload.single('file'), parseImage, (req, res) => {
   console.log("Received message:", req.body);
   res.json({ message: `Message received: ${req.body.text}` });
 });

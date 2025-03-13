@@ -5,7 +5,7 @@ import { openAIFoodBreakdown } from './openaiController';
 import { Request, Response, NextFunction } from 'express';
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage });
+export const upload = multer({ storage });
 
 // dotenv.config();
 
