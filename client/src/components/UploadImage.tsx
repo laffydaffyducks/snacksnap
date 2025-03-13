@@ -33,23 +33,45 @@ const UploadImage: React.FC = () => {
     console.log('Accepted files: ', previewFiles);
     console.log('IMG HERE: ', previewFiles[0].preview);
 
-    // TODO: send image to BE to analyze
-    // Image Blob to send to BE
-    // previewFiles[0].preview
+    // setIsProcessing(true);
 
-    setIsProcessing(true);
+    const imageToProcess: File = previewFiles[0];
 
-    const imageBlob: string = previewFiles[0].preview;
-    handleImageProcessing(imageBlob);
-
-    // setIsProcessing(false);
+    handleImageProcessing(imageToProcess);
+    setIsProcessing(false);
   };
 
-  const handleImageProcessing = (imageBlob: string) => {
-    // TODO: BE logic here
-    // fetch image details
-    // pass to foodItemsList?
-  };
+  async function handleImageProcessing(file: {
+    handle: FileSystemFileHandle;
+    preview: string;
+  }) {
+    try {
+      // Access the FileSystemFileHandle from the object
+      const fileHandle = file.handle;
+      // Get the File object
+      const fileObj = await fileHandle.getFile();
+
+      const fileName: string = fileObj.name;
+      console.log('file name: ', fileName);
+
+      const formData = new FormData();
+      formData.append('image', fileObj);
+
+      // Send formData to BE
+      // try {
+      //   const response = await fetch('localhost:3000/api', {
+      //     method: 'POST',
+      //     body: formData,
+      //   });
+      //   const data = await response.json();
+      //   console.log('Image processed successfuly', data);
+      // } catch (error) {
+      //   console.error('Error processing image.', error);
+      // }
+    } catch (error) {
+      console.error('Error while processing image: ', error);
+    }
+  }
 
   return (
     <div className='upload-image-container'>
