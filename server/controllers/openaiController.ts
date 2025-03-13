@@ -1,7 +1,5 @@
-import { RequestHandler } from 'express';
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import OpenAI from 'openai';
-import fs from "fs";
 
 export type ServerError = {
     log: string;
@@ -9,17 +7,22 @@ export type ServerError = {
     message: { err: string };
   };
 
-dotenv.config();
-const openAIKey = process.env.OPENAI_API_KEY
-const openai = new OpenAI({ apiKey: openAIKey });
+// const calNinjaAPI = process.env.CALORIE_NINJAS_API
+// console.log(calNinjaAPI)
+//   console.log('🔑 OpenAI API Key:', process.env.OPENAI_API_KEY);
+//   const openAIKey: string = process.env.OPENAI_API_KEY || "";
+//   if (!openAIKey) {
+//     throw new Error("The OPENAI_API_KEY environment variable is missing or empty.");
+//   }
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-export const openAIFoodBreakdown: RequestHandler = async (req: any, res, next) => {
+export const openAIFoodBreakdown = async (req: any, res, next) => {
     // console log to know if openAIFoodBreakdown has been reached
     console.log('🦄 openAIFoodBreakdown middleware has been reached')
     //destructering 
-    { foodImage } = res.locals
+  
     //check if the image exists if not error handling
-    if (!foodImage) {
+    if (!req.file) {
         const error: ServerError = {
           log: 'title not provided',
           status: 400,
@@ -29,9 +32,11 @@ export const openAIFoodBreakdown: RequestHandler = async (req: any, res, next) =
       }
       try {
         // Convert the image buffer to base64
-        const base64FoodImage = foodImage.buffer.toString("base64");
+        //might need to use req.file since file is inside multer
+        const base64FoodImage = req.file.buffer.toString("base64");
+        
         //converts the image to the type that the image is
-        const mimeType = foodImage.mimetype; // Example: "image/png"
+        const mimeType = req.file.mimetype; // Example: "image/png"
         //below is prompt for gpt-4o to analyse food image and return back the correctly formatted response
         const systemPrompt = `
         You are a food analysis expert.  
@@ -42,13 +47,13 @@ export const openAIFoodBreakdown: RequestHandler = async (req: any, res, next) =
         For example if you see spaghetti send back spaghetti not noodles, marinara, parmaesan cheese.
         For each food item you send back also send back the estimated weight of that item in grams.
         Ignore sending back spices, and any minor ingredients that are not significant.
-        The data that you send back should be in this form of an array of objects.  For example:
-        If you detects 100g of steak and 100g of mashed potatoes you should send back this:
+        The data that you send back should be in this form, it should be an array of objects.  For example:
+        If you detect 100 grams of steak and 100 grams of mashed potatoes you should send back this:
 
         [{name: 'steak', portion: 100, units: grams}, {name: 'mashed potatoes', portion: 100, units: grams}]
 
         Your response should only be in the above format.  
-        If there are more ingredients you should add in the appropiate amount of objects into the array
+        If there are more ingredients you should add the appropiate amount of objects into the array.
         Do not include markdown in your response.
         `
         //creating the open image parsing 
@@ -87,6 +92,9 @@ export const openAIFoodBreakdown: RequestHandler = async (req: any, res, next) =
           console.log(response.choices[0].message.content);
           return next ();
 
+    }
+    catch (error) {
+      res.status(500).json({message: "❌ 🦾 Error AI processing image", error: error.message})
     }
 }
 

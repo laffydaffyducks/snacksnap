@@ -1,16 +1,21 @@
 import express from "express";
 import cors from "cors";
+import multer from 'multer';
 import dotenv from "dotenv";
+import { parseImage } from "./controllers/userQueryController.ts";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import { parseImage } from "./controllers/userQueryController";
-import { upload } from "./controllers/userQueryController";
+import { openAIFoodBreakdown } from "./controllers/openaiController.ts";
+import { upload } from "./controllers/userQueryController.ts";
 
+dotenv.config();
 // manually defining __dirname and __filename for CommonJS usage
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-dotenv.config();
+console.log("Current directory:", __dirname);
+console.log("Resolved path:", path.resolve(__dirname, "./controllers/userQueryController"));
+
 const app = express();
 const PORT = 3000;
 
@@ -21,15 +26,20 @@ app.get("/", (req, res) => {
   res.send("Hello from Express!");
 });
 
+
 // Handle POST request from frontend
-app.post("/api", upload.single('file'), parseImage, (req, res) => {
-  console.log("Received message:", req.body);
-  res.json({ message: `Message received: ${req.body.text}` });
+app.post("/api",upload.single('IMG_2857') ,parseImage, openAIFoodBreakdown, (req, res) => {
+  console.log("🍖 food image ");
+  console.log("🚀 Received Multer File:", req.file); // Logs the uploaded file object
+  console.log("📦 Multer Config:", upload);
+  res.status(200).json(res.locals.foodAnalysis);
 });
-app.use(express.static(path.join(__dirname, "../client")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/index.html"));
-});
+
+
+// app.use(express.static(path.join(__dirname, "../client")));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../client/index.html"));
+// });
 
 
 app.listen(PORT, () => {

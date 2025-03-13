@@ -1,39 +1,38 @@
 
 import OpenAI from 'openai';
 import multer from 'multer';
-import { openAIFoodBreakdown } from './openaiController';
-import { Request, Response, NextFunction } from 'express';
+
 
 const storage = multer.memoryStorage();
-export const upload = multer({ storage });
-
-// dotenv.config();
-
-//getting key from .env file
-// const openAIKey = process.env.OPENAI_API_KEY
-//creating a new instance of openAI using openai key
-// const openai = new OpenAI({ apiKey: openAIKey });
+export const upload = multer({ storage: storage });
+// console.log('✅ 📸 Multer',upload)
 
 //controller that is meant to parse image sent from front end,
-export const parseImage = async(req: Request, res: Response, next: NextFunction) => {
+export const parseImage = async (req, res, next): Promise<void> => {
+    console.log('🌮 parseImage middleware reached')
+    //changed to req.file since it seems this is built in
     if (!req.file) {
-        return res.status(400).json ({message: '❌ 📷 no image uploaded'})
+        res.status(400).json ({message: '❌ 📷 no image uploaded'});
+        return;
     }
     try {
-        const foodImage =req.file.buffer;
-        res.locals.foodimage = foodImage;
-        console.log('foodImage')
-        next();
-    }
-    catch (error){
-        res.status(500).json({message: "❌ 📥 Error processing image", error: error.message})
+        //upload.single(req.file.originalname)
+        console.log('hello')
+        // console.log(req.file.originalname)
+        console.log(req.file)
+        //console.log('food Image;', upload.single())
+        //theoretically should pass foodImage to res.locals for the next middleware which is in openaiController
+        // const foodImage = '../assests/th.jpeg';
+        // res.locals.foodimage = foodImage;
+        
+        return next();
+    } catch (error) {
+        res.status(500).json({ message: "❌ 📥 Error processing image", error: error.message });
     }
 }
 
 
 
-
-// module.exports = upload;
 
 
 
