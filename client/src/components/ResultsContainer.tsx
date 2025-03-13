@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import NutritionTab from './NutritionTab';
 import MacroTab from './MacroTab';
-import { Pie } from 'react-chartjs-2';
 import SuggestionBox from './SuggestionBox';
 
 //fake nutritionData
