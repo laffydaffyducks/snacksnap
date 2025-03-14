@@ -1,0 +1,14 @@
+.food-items-container {
+  margin: 15px 0;
+}
+
+.reset-btn {
+  margin-bottom: 20px;
+}
+
+.submit-add-btn {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
