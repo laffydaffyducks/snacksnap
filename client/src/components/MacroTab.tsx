@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import React, { useState } from 'react';
 import PieChart from './PieChart';
 import './MacroTab.css';
+import './MacroTab.css';
 
 interface NutritionData {
   name: string;
