@@ -1,4 +1,5 @@
 import express from "express";
+import { fetchCalNinjaApi , calorieNinjaParseData, } from "./controllers/fetchCalNinjaApi.ts";
 import cors from "cors";
 import multer from 'multer';
 import dotenv from "dotenv";
@@ -26,14 +27,18 @@ app.get("/", (req, res) => {
   res.send("Hello from Express!");
 });
 
-
+//req.body.file.name
 // Handle POST request from frontend
-app.post("/api",upload.single('IMG_2857') ,parseImage, openAIFoodBreakdown, (req, res) => {
+app.post("/api",upload.single('image') ,parseImage, openAIFoodBreakdown, (req, res) => {
   console.log("🍖 food image ");
   console.log("🚀 Received Multer File:", req.file); // Logs the uploaded file object
   console.log("📦 Multer Config:", upload);
   res.status(200).json(res.locals.foodAnalysis);
 });
+
+app.post('/calorieninja', fetchCalNinjaApi, calorieNinjaParseData, (req, res) => {
+  res.sendStatus(200)
+})
 
 
 // app.use(express.static(path.join(__dirname, "../client")));
@@ -45,3 +50,6 @@ app.post("/api",upload.single('IMG_2857') ,parseImage, openAIFoodBreakdown, (req
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
+
+
