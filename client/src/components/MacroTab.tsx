@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PieChart from './PieChart';
-import './MacroTab.css';
 import './MacroTab.css';
 
 interface NutritionData {
@@ -20,10 +19,15 @@ const MacroTab: React.FC<MacroTabProps> = ({ nutritionData }) => {
   }
 
   return (
-    <div>
+    <div className='macro-tab-container'>
       {nutritionData.slice(0, 4).map((data, index) => (
-        <div key={index}>
-          <h3>{data.name}</h3>
+        <div
+          className={`nutrition-data-container ${
+            index === 0 ? 'full-width' : ''
+          }`}
+          key={index}
+        >
+          <h3 className='nutr-name'>{data.name}</h3>
           <PieChart
             name={data.name}
             userIntake={data.userIntake}

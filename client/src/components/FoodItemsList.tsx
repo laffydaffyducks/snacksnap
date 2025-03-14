@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {FoodItem, NutritionData} from '../App.tsx'
+import { FoodItem, NutritionData } from '../App.tsx';
+import './FoodItemsList.css';
+
 // Define the FoodItem interface to type the food items
 interface UpdateNutritionProps {
-  handleUpdateNutrition: (items: NutritionData[]) => void,
-  food: FoodItem[],
-
+  handleUpdateNutrition: (items: NutritionData[]) => void;
+  food: FoodItem[];
 }
-const FoodItemsList: React.FC<UpdateNutritionProps> = ({food, handleUpdateNutrition}) => {
+const FoodItemsList: React.FC<UpdateNutritionProps> = ({
+  food,
+  handleUpdateNutrition,
+}) => {
   // Initialize the state with one empty food item
   const initialFoodItems: FoodItem[] = [
     { name: '', portion: '', unit: 'grams' },
   ];
   const [foodItems, setFoodItems] = useState<FoodItem[]>(initialFoodItems);
 
-//update the list when receiving data after droping image.
-  useEffect(()=>{
-    setFoodItems(food)
-  }, [food])
+  //update the list when receiving data after droping image.
+  useEffect(() => {
+    setFoodItems(food);
+  }, [food]);
 
   // Function to add a new empty food item to the list
   const handleAddItem = () => {
@@ -73,7 +77,7 @@ const FoodItemsList: React.FC<UpdateNutritionProps> = ({food, handleUpdateNutrit
         items: foodItems,
       });
 
-      handleUpdateNutrition(response.data)
+      handleUpdateNutrition(response.data);
       console.log('🍔 data submit to backend: ', response.data);
     } catch (error) {
       console.error('Error submitting data to backend:', error);
@@ -86,9 +90,11 @@ const FoodItemsList: React.FC<UpdateNutritionProps> = ({food, handleUpdateNutrit
   };
 
   return (
-    <div>
-      <h1>Food Items List</h1>
-      <button onClick={handleReset}>Reset</button>
+    <div className='food-items-container'>
+      <h2>Food Items List</h2>
+      <button className='reset-btn' onClick={handleReset}>
+        Reset
+      </button>
       <table>
         <thead>
           <tr>
@@ -137,9 +143,11 @@ const FoodItemsList: React.FC<UpdateNutritionProps> = ({food, handleUpdateNutrit
           ))}
         </tbody>
       </table>
-      <button onClick={handleAddItem}>Add Item</button>
 
-      <button onClick={handleSubmit}>Submit</button>
+      <div className='submit-add-btn'>
+        <button onClick={handleAddItem}>Add Item</button>
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
     </div>
   );
 };

@@ -72,7 +72,7 @@ export const calorieNinjaParseData = async (req: any, res: any, next: any) => {
     }
     const foodTotals: FoodTotal[] = [
       {
-        name: 'calories',
+        name: 'Calories',
         userIntake: totalCalories,
         recommendIntake: 2000,
         unit: 'cals',

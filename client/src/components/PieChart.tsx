@@ -24,7 +24,8 @@ const handleInput = (
         {
           label: nutritionName,
           data: [userIntake - recommendIntake, recommendIntake],
-          backgroundColor: ['red', 'green'],
+          backgroundColor: ['#942525ef', '#1b541b'],
+          borderColor: ['#942525ef', '#1b541b'],
           hoverOffset: 4,
         },
       ],
@@ -36,7 +37,8 @@ const handleInput = (
         {
           label: nutritionName,
           data: [userIntake, recommendIntake - userIntake],
-          backgroundColor: ['green', 'grey'],
+          backgroundColor: ['#1b541b', 'grey'],
+          borderColor: ['#1b541b', 'grey'],
           hoverOffset: 4,
         },
       ],
@@ -57,11 +59,14 @@ const PieChart: React.FC<PieChartProps> = ({
   }, [recommendIntake, userIntake]);
 
   return (
-    <div>
-      <Pie data={handleInput(name, userIntake, recommendIntake)} />
-      <h3>
-        Your Intake / Recommended Intake: {`${Math.floor(userIntake)}/${recommendIntake}`}
-      </h3>
+    <div className='piechart-container'>
+      <div className='piechart'>
+        <Pie data={handleInput(name, userIntake, recommendIntake)} />
+      </div>
+      <p className='intake'>
+        Your Intake / Recommended Intake:{' '}
+        {`${Math.floor(userIntake)}/${recommendIntake}`}
+      </p>
     </div>
   );
 };

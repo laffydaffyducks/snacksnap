@@ -2,7 +2,7 @@ import OpenAI from 'openai';
 import multer from 'multer';
 
 const openai = new OpenAI({
-  apiKey:''
+  apiKey: '',
 });
 
 type ServerError = {
@@ -41,13 +41,11 @@ export const parseImage = async (req, res, next): Promise<void> => {
   }
 };
 
-
-
 export const getNutritionAnalysis = async (req: any, res, next) => {
   const suggestionQuery = req.body;
 
-  const stringSuggestionQuery = JSON.stringify(suggestionQuery)
-  console.log('🎸 stringSuggestionQuery: ', stringSuggestionQuery)
+  const stringSuggestionQuery = JSON.stringify(suggestionQuery);
+  console.log('🎸 stringSuggestionQuery: ', stringSuggestionQuery);
   console.log('🍕 getNutritionAnalysis middleware reached');
 
   const systemPrompt = `
@@ -67,7 +65,7 @@ export const getNutritionAnalysis = async (req: any, res, next) => {
   If the meal is unhealthy make it known but make sure your final sentence is a postive affirmation that the user will be okay.
   `;
 
-  console.log('🙈SuggestionQuery send to OpenAI:',`${suggestionQuery}`)
+  console.log('🙈SuggestionQuery send to OpenAI:', `${suggestionQuery}`);
 
   try {
     const response = await openai.chat.completions.create({
@@ -93,9 +91,8 @@ export const getNutritionAnalysis = async (req: any, res, next) => {
       return next(error);
     }
     const suggestion = await response.choices[0].message.content;
-    console.log('🍭suggestion: ', suggestion)
+    console.log('🍭suggestion: ', suggestion);
     res.locals.suggestion = suggestion;
-
   } catch (error) {
     console.error('Error fetching AI response:', error);
   }

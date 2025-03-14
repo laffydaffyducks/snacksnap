@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import './UploadImage.css';
-import {FoodItem} from '../App.tsx'
+import { FoodItem } from '../App.tsx';
 interface DropzoneFile extends File {
   preview: string;
   handle: FileSystemFileHandle | undefined;
@@ -44,7 +44,7 @@ const UploadImage: React.FC<UploadImageProps> = ({ handleUpdateFood }) => {
     const imageToProcess: DropzoneFile = previewFiles[0];
 
     handleImageProcessing(imageToProcess);
-    setIsProcessing(false);
+    setIsProcessing(true);
   };
 
   async function handleImageProcessing(file: DropzoneFile) {
@@ -70,9 +70,10 @@ const UploadImage: React.FC<UploadImageProps> = ({ handleUpdateFood }) => {
         const data: string = await response.json();
         console.log('🍎 Image processed successfuly', data);
         console.log('🍑 data: ', typeof data);
-        const parsedData: FoodItem[] = JSON.parse(data)
+        const parsedData: FoodItem[] = JSON.parse(data);
 
         handleUpdateFood(parsedData);
+        setIsProcessing(false);
       } catch (error) {
         console.error('Error processing image.', error);
       }

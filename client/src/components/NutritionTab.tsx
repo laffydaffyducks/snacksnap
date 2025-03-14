@@ -20,9 +20,9 @@ const NutritionTab: React.FC<NutritionTabProps> = ({ nutritionData }) => {
       <table className='nutrition-table'>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Your Intake</th>
-            <th>% of Recommended Intake</th>
+            <th className='nutr-table-head'>Name</th>
+            <th className='nutr-table-head'>Your Intake</th>
+            <th className='nutr-table-head'>% of Recommended Intake</th>
           </tr>
         </thead>
         <tbody>
