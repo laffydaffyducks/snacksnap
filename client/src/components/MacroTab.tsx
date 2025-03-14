@@ -1,25 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
+import React, { useState } from 'react';
 import PieChart from './PieChart';
+import './MacroTab.css';
 
 interface NutritionData {
-  nutritionName: string;
+  name: string;
   userIntake: number;
   recommendIntake: number;
   unit: string;
 }
 
 interface MacroTabProps {
-  nutritionData: NutritionData[];
+  nutritionData: NutritionData[] | null;
 }
 
 const MacroTab: React.FC<MacroTabProps> = ({ nutritionData }) => {
+  if (!nutritionData) {
+    return <div>No nutrition data available</div>;
+  }
+
   return (
     <div>
-      {nutritionData.map((data, index) => (
+      {nutritionData.slice(0, 4).map((data, index) => (
         <div key={index}>
-          <h3>{data.nutritionName}</h3>
+          <h3>{data.name}</h3>
           <PieChart
-            nutritionName={data.nutritionName}
+            name={data.name}
             userIntake={data.userIntake}
             recommendIntake={data.recommendIntake}
           />

@@ -3,13 +3,13 @@ const CALORIE_NINJAS_API: string = 'EVipzwkQ5Vjj0hXw3uC24g==4SQ1QIoD46fqcPcb';
 export const fetchCalNinjaApi = async (req: any, res: any, next: any) => {
   console.log('🥩 fetchCalNinjaApi middleware has been reached');
   //we are going to be sent an array objects we want to break them down into a string that has weight and name for each indiviudual object
-  const array = req.body;
+  const array = req.body.items;
   console.log('🧍🏻 req.body1', array);
-  //[{'name': 'beef patty', 'portion': '150', 'units': 'grams'}, {'name': 'rice', 'portion': '200', 'units': 'grams'}, {'name': 'mixed vegetables', 'portion': '100', 'units': 'grams'}]
+  //[{"name": "beef patty", "portion": "150", "units": "grams"}, {"name": "rice", "portion": "200", "units": "grams"}, {"name": "mixed vegetables", "portion": "100", "units": "grams"}]
   //have an empty array and we push in all element in order of each index of the original array
   const newArray: string[] = [];
   array.map((ele) => {
-    newArray.push(`${ele.portion}${ele.units} of ${ele.name}`);
+    newArray.push(`${ele.portion}${ele.unit} of ${ele.name}`);
   });
   const foodArray: string = newArray.join(', ');
   console.log(foodArray);
@@ -67,63 +67,63 @@ export const calorieNinjaParseData = async (req: any, res: any, next: any) => {
     interface FoodTotal {
       name: string;
       userIntake: number;
-      recommended: number;
-      units: string;
+      recommendIntake: number;
+      unit: string;
     }
     const foodTotals: FoodTotal[] = [
       {
         name: 'calories',
         userIntake: totalCalories,
-        recommended: 2000,
-        units: 'cals',
+        recommendIntake: 2000,
+        unit: 'cals',
       },
       {
         name: 'Fat',
         userIntake: totalFat,
-        recommended: 45,
-        units: 'grams',
+        recommendIntake: 45,
+        unit: 'grams',
       },
       {
         name: 'Carbohydrates',
         userIntake: totalCarbs,
-        recommended: 250,
-        units: 'grams',
+        recommendIntake: 250,
+        unit: 'grams',
       },
       {
         name: 'Protein',
         userIntake: totalProtein,
-        recommended: 150,
-        units: 'grams',
+        recommendIntake: 150,
+        unit: 'grams',
       },
       {
         name: 'Sodium',
-        userIntake: totalSodium,
-        recommended: 2.3,
-        units: 'grams',
+        userIntake: totalSodium * 0.001,
+        recommendIntake: 2.3,
+        unit: 'grams',
       },
       {
         name: 'Potassium',
-        userIntake: totalPotassium,
-        recommended: 4.7,
-        units: 'grams',
+        userIntake: totalPotassium * 0.001,
+        recommendIntake: 4.7,
+        unit: 'grams',
       },
       {
         name: 'Fiber',
         userIntake: totalFiber,
-        recommended: 28,
-        units: 'grams',
+        recommendIntake: 28,
+        unit: 'grams',
       },
       {
         name: 'Sugar',
         userIntake: totalSugar,
-        recommended: 50,
-        units: 'grams',
+        recommendIntake: 50,
+        unit: 'grams',
       },
       {
         name: 'Cholesterol',
-        userIntake: totalCholesterol,
-        recommended: 0.3,
-        units: 'grams',
+        userIntake: totalCholesterol * 0.001,
+        recommendIntake: 0.3,
+        unit: 'grams',
       },
     ];
 

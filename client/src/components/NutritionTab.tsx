@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './NutritionTab.css';
+import React, { useState } from 'react';
+import './NutritionTab.css';
 
 interface NutritionData {
-  nutritionName: string;
+  name: string;
   userIntake: number;
   recommendIntake: number;
   unit: string;
@@ -12,12 +15,18 @@ interface NutritionTabProps {
 }
 
 const NutritionTab: React.FC<NutritionTabProps> = ({ nutritionData }) => {
-  return (
+  const [nutrData, setNutrData] = useState<boolean>(true);
+
+  return nutrData ? (
+  const [nutrData, setNutrData] = useState<boolean>(true);
+
+  return nutrData ? (
     <div className='nutrition-tab-container'>
-      <table>
+      <table className='nutrition-table'>
+      <table className='nutrition-table'>
         <thead>
           <tr>
-            <th>Nutrition Name</th>
+            <th>name</th>
             <th>Your Intake</th>
             <th>% of Recommended Intake</th>
           </tr>
@@ -25,12 +34,12 @@ const NutritionTab: React.FC<NutritionTabProps> = ({ nutritionData }) => {
         <tbody>
           {nutritionData.map((data, index) => {
             const percentageIntake = Math.floor(
-              (data.userIntake / data.recommendIntake) * 100
-            );
+              (data.userIntake / data.recommendIntake) * 100)
+            ;
             return (
               <tr key={index}>
-                <td>{data.nutritionName}</td>
-                <td>{data.userIntake}</td>
+                <td>{data.name}</td>
+                <td>{data.userIntake.toFixed(2)}</td>
                 <td>{percentageIntake}%</td>
               </tr>
             );
@@ -38,6 +47,10 @@ const NutritionTab: React.FC<NutritionTabProps> = ({ nutritionData }) => {
         </tbody>
       </table>
     </div>
+  ) : (
+    <p>No data yet</p>
+  ) : (
+    <p>No data yet</p>
   );
 };
 

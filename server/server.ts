@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 });
 
 // Handle POST request from frontend
-app.post("/api",upload.single('image') ,parseImage, openAIFoodBreakdown, (req, res) => {
+app.post('/api', upload.single('image') ,parseImage, openAIFoodBreakdown, (req, res) => {
   console.log("🍖 food image ");
   console.log("🚀 Received Multer File:", req.file); // Logs the uploaded file object
   console.log("📦 Multer Config:", upload);
@@ -49,10 +49,22 @@ app.use(express.static(path.join(__dirname, "../client")));
 //   res.sendFile(path.join(__dirname, "../client/index.html"));
 // });
 
+// const errorHandler: ErrorRequestHandler = (
+//   err: ServerError,
+//   _req,
+//   res,
+//   _next
+// ) => {
+//   const defaultErr: ServerError = {
+//     log: 'Express error handler caught unknown middleware error',
+//     status: 500,
+//     message: { err: 'An error occurred' },
+//   };
+//   const errorObj: ServerError = { ...defaultErr, ...err };
+//   console.log(errorObj.log);
+//   res.status(errorObj.status).json(errorObj.message);
+// };
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-
-
-

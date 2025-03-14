@@ -39,23 +39,32 @@ export const openAIFoodBreakdown = async (req: any, res, next) => {
         const mimeType = req.file.mimetype; // Example: "image/png"
         //below is prompt for gpt-4o to analyse food image and return back the correctly formatted response
         const systemPrompt = `
-        You are a food analysis expert.  
-        There is no food item that you can not recognize.  
-        You are going to be looking at a picture of food. 
-        Ignore all items in the background only focus on what you deem to be food items.
-        If you can see an amalgamation of items that create a common dish then you can just name the dish.
-        For example if you see spaghetti send back spaghetti not noodles, marinara, parmaesan cheese.
-        For each food item you send back also send back the estimated weight of that item in grams.
-        Ignore sending back spices, and any minor ingredients that are not significant.
-        The data that you send back should be in this form, it should be an array of objects.  For example:
-        If you detect 100 grams of steak and 100 grams of mashed potatoes you should send back this:
+    You are a food analysis expert.  
+    There is no food item that you cannot recognize.  
+    You are looking at a picture of food.  
 
-        [{name: 'steak', portion: 100, units: grams}, {name: 'mashed potatoes', portion: 100, units: grams}]
+    ### **Instructions:**
+    - **Ignore background objects** and focus **only on food items**.
+    - If a dish is a **combination of ingredients**, return the **name of the dish** instead of listing ingredients separately.
+      - **Example:** If the image contains spaghetti with marinara sauce, return \`"spaghetti"\`, not \`"noodles", "tomato sauce", "cheese"\`.
+    - **Estimate the weight of each food item** in grams.
+    - **Do not include spices, garnishes, or minor ingredients** that do not significantly impact the dish.
 
-        Your response should only be in the above format.  
-        If there are more ingredients you should add the appropiate amount of objects into the array.
-        Do not include markdown in your response.
-        `
+    ### **Response Format (Strict JSON)**
+    You must **ONLY** return an array of objects **in valid JSON format**:
+    "[
+      { "name": "steak", "portion": "100", "unit": "grams" },
+      { "name": "mashed potatoes", "portion": "100", "unit": "grams" }
+    ]"
+
+    ### **Important Formatting Rules:**
+    ✅ **All values must be strings** (including portion values).  
+    ✅ **No markdown, explanations, or extra text**.  
+    ✅ **No backticks (\`\`\`) or unnecessary characters**.  
+    ✅ **Ensure JSON is valid and properly formatted**.
+    ✅ **Make sure to keep the array wrapped in double quotations 
+    If there are more ingredients, add them to the array following the same format.
+    `;
         //creating the open image parsing 
         const response = await openai.chat.completions.create({
             model: "gpt-4o", 
@@ -88,8 +97,9 @@ export const openAIFoodBreakdown = async (req: any, res, next) => {
           }
           //storing the response in the res.locals object
           res.locals.foodAnalysis = response.choices[0].message.content;
+       
           //checking to see what the response is
-          console.log(response.choices[0].message.content);
+          console.log('😂hi:',response.choices[0].message);
           return next ();
 
     }

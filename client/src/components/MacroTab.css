@@ -1,0 +1,25 @@
+.macro-tab-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.nutrition-data-container {
+  width: 30%; /* Adjust to fit 3 per row */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nutrition-data-container:first-child {
+  width: 100%; /* First Pie Chart takes full width */
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 1000px) {
+  .nutrition-data-container {
+    width: 100%;
+  }
+}

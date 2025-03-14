@@ -7,7 +7,17 @@ interface DropzoneFile extends File {
   handle: FileSystemFileHandle | undefined;
 }
 
-const UploadImage: React.FC = () => {
+interface FoodItem {
+  name: string;
+  portion: string;
+  unit: string;
+}
+
+interface UploadImageProps {
+  uploadFood: (items: FoodItem[]) => void;
+}
+
+const UploadImage: React.FC<UploadImageProps> = ({ uploadFood }) => {
   const [filePreview, setFilePreview] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
@@ -58,16 +68,20 @@ const UploadImage: React.FC = () => {
       formData.append('image', fileObj);
 
       // Send formData to BE
-      // try {
-      //   const response = await fetch('localhost:3000/api', {
-      //     method: 'POST',
-      //     body: formData,
-      //   });
-      //   const data = await response.json();
-      //   console.log('Image processed successfuly', data);
-      // } catch (error) {
-      //   console.error('Error processing image.', error);
-      // }
+      try {
+        const response = await fetch('http://localhost:3000/api', {
+          method: 'POST',
+          body: formData,
+        });
+        const data: string = await response.json();
+        console.log('🍎 Image processed successfuly', data);
+        console.log('🍑 data: ', typeof data);
+        const parsedData: FoodItem[] = JSON.parse(data)
+
+        uploadFood(parsedData);
+      } catch (error) {
+        console.error('Error processing image.', error);
+      }
     } catch (error) {
       console.error('Error while processing image: ', error);
     }
