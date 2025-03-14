@@ -37,8 +37,8 @@ app.post("/api",upload.single('image') ,parseImage, openAIFoodBreakdown, (req, r
 });
 
 app.post('/calorieninja', fetchCalNinjaApi, calorieNinjaParseData, (req, res) => {
-  res.sendStatus(200)
-})
+  res.sendStatus(200).json(res.locals.foodTotals)
+});
 
 
 // app.use(express.static(path.join(__dirname, "../client")));
