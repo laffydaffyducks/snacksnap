@@ -1,0 +1,18 @@
+.piechart-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.piechart {
+  height: 250px;
+  width: 250px;
+}
+
+.intake {
+  margin: 0;
+  font-size: 15px;
+}

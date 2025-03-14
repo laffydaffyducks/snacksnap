@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import NutritionTab from './NutritionTab';
 import MacroTab from './MacroTab';
 import SuggestionBox from './SuggestionBox';
+import './ResultsContainer.css';
 
 //fake nutritionData
 const nutritionData = [
-  { nutritionName: 'Protein', userIntake: 50, recommendIntake: 56, unit: 'g' },
+  { nutritionName: 'Protein', userIntake: 80, recommendIntake: 56, unit: 'g' },
   {
     nutritionName: 'Carbohydrates',
     userIntake: 220,
@@ -20,16 +21,28 @@ const ResultsContainer: React.FC = () => {
   const [view, setView] = useState<string>('macro'); // Set initial state to 'macro'
 
   return (
-    <div>
-      <div>
-        <button onClick={() => setView('nutrition')}>Nutrition Tab</button>
-        <button onClick={() => setView('macro')}>Macro Tab</button>
+    <div className='results-container'>
+      <div className='results-tabs-container'>
+        <button
+          className={view === 'nutrition' ? 'active-tab' : ''}
+          onClick={() => setView('nutrition')}
+        >
+          Nutrition
+        </button>
+        <button
+          className={view === 'macro' ? 'active-tab' : ''}
+          onClick={() => setView('macro')}
+        >
+          Macro
+        </button>
       </div>
-      {view === 'nutrition' ? (
-        <NutritionTab nutritionData={nutritionData} />
-      ) : (
-        <MacroTab nutritionData={nutritionData} />
-      )}
+      <div className='component-transition'>
+        {view === 'nutrition' ? (
+          <NutritionTab nutritionData={nutritionData} />
+        ) : (
+          <MacroTab nutritionData={nutritionData} />
+        )}
+      </div>
       <SuggestionBox />
     </div>
   );
