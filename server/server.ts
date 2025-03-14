@@ -8,6 +8,8 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { openAIFoodBreakdown } from "./controllers/openaiController.ts";
 import { upload } from "./controllers/userQueryController.ts";
+import { getNutritionAnalysis } from "./controllers/userQueryController.ts";
+
 
 dotenv.config();
 // manually defining __dirname and __filename for CommonJS usage
@@ -27,7 +29,6 @@ app.get("/", (req, res) => {
   res.send("Hello from Express!");
 });
 
-//req.body.file.name
 // Handle POST request from frontend
 app.post("/api",upload.single('image') ,parseImage, openAIFoodBreakdown, (req, res) => {
   console.log("🍖 food image ");
@@ -37,11 +38,13 @@ app.post("/api",upload.single('image') ,parseImage, openAIFoodBreakdown, (req, r
 });
 
 app.post('/calorieninja', fetchCalNinjaApi, calorieNinjaParseData, (req, res) => {
-  res.sendStatus(200).json(res.locals.foodTotals)
+  res.status(200).json(res.locals.foodTotals);
 });
 
-
-// app.use(express.static(path.join(__dirname, "../client")));
+app.post('/suggestion', getNutritionAnalysis, (req, res) => {
+  res.status(200).json(res.locals.suggestion);
+})
+app.use(express.static(path.join(__dirname, "../client")));
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "../client/index.html"));
 // });

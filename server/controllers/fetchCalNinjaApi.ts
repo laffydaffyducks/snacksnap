@@ -98,14 +98,14 @@ export const calorieNinjaParseData = async (req: any, res: any, next: any) => {
       {
         name: 'Sodium',
         userIntake: totalSodium,
-        recommended: 2300,
-        units: 'milligrams',
+        recommended: 2.3,
+        units: 'grams',
       },
       {
         name: 'Potassium',
         userIntake: totalPotassium,
-        recommended: 4700,
-        units: 'milligrams',
+        recommended: 4.7,
+        units: 'grams',
       },
       {
         name: 'Fiber',
@@ -122,8 +122,8 @@ export const calorieNinjaParseData = async (req: any, res: any, next: any) => {
       {
         name: 'Cholesterol',
         userIntake: totalCholesterol,
-        recommended: 300,
-        units: 'milligrams',
+        recommended: 0.3,
+        units: 'grams',
       },
     ];
 
