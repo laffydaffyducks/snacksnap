@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import {FoodItem, NutritionData} from '../App.tsx'
 // Define the FoodItem interface to type the food items
-interface FoodItem {
-  name: string;
-  portion: string;
-  unit: string;
-}
+interface UpdateNutritionProps {
+  handleUpdateNutrition: (items: NutritionData[]) => void,
+  food: FoodItem[],
 
-const FoodItemsList: React.FC = () => {
+}
+const FoodItemsList: React.FC<UpdateNutritionProps> = ({food, handleUpdateNutrition}) => {
   // Initialize the state with one empty food item
   const initialFoodItems: FoodItem[] = [
     { name: '', portion: '', unit: 'grams' },
   ];
   const [foodItems, setFoodItems] = useState<FoodItem[]>(initialFoodItems);
+
+//update the list when receiving data after droping image.
+  useEffect(()=>{
+    setFoodItems(food)
+  }, [food])
 
   // Function to add a new empty food item to the list
   const handleAddItem = () => {
@@ -54,7 +59,7 @@ const FoodItemsList: React.FC = () => {
   };
 
   // Function to handle form submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Check for empty fields
     for (const item of foodItems) {
       if (!item.name || !item.portion || !item.unit) {
@@ -63,7 +68,16 @@ const FoodItemsList: React.FC = () => {
       }
     }
     // Handler to submit items to the backend
-    console.log('🍔 data submit to backend: ', foodItems);
+    try {
+      const response = await axios.post('http://localhost:3000/calorieninja', {
+        items: foodItems,
+      });
+
+      handleUpdateNutrition(response.data)
+      console.log('🍔 data submit to backend: ', response.data);
+    } catch (error) {
+      console.error('Error submitting data to backend:', error);
+    }
   };
 
   // Function to reset the food items to the initial state

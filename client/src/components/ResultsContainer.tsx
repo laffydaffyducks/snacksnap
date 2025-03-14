@@ -3,22 +3,14 @@ import NutritionTab from './NutritionTab';
 import MacroTab from './MacroTab';
 import SuggestionBox from './SuggestionBox';
 import './ResultsContainer.css';
-
-interface NutritionData {
-  name: string;
-  userIntake: number;
-  recommendIntake: number;
-  unit: string;
-}
+import {NutritionData} from '../App.tsx'
 
 interface ResultsContainerProps {
-  results: NutritionData[];
+  nutrition: NutritionData[];
 }
 
-
-const ResultsContainer: React.FC<ResultsContainerProps> = ({results}) => {
+const ResultsContainer: React.FC<ResultsContainerProps> = ({nutrition}) => {
   const [view, setView] = useState<string>('macro'); // Set initial state to 'macro'
-
 
   return (
     <div className='results-container'>
@@ -35,27 +27,13 @@ const ResultsContainer: React.FC<ResultsContainerProps> = ({results}) => {
         >
           Macro
         </button>
-    <div className='results-container'>
-      <div className='results-tabs-container'>
-        <button
-          className={view === 'nutrition' ? 'active-tab' : ''}
-          onClick={() => setView('nutrition')}
-        >
-          Nutrition
-        </button>
-        <button
-          className={view === 'macro' ? 'active-tab' : ''}
-          onClick={() => setView('macro')}
-        >
-          Macro
-        </button>
       </div>
       {view === 'nutrition' ? (
-        <NutritionTab nutritionData={results} />
+        <NutritionTab nutritionData={nutrition} />
       ) : (
-        <MacroTab nutritionData={results} />
+        <MacroTab nutritionData={nutrition} />
       )}
-      <SuggestionBox />
+      <SuggestionBox nutrition = {nutrition}/>
     </div>
   );
 };

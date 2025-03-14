@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { NutritionData } from '../App.tsx';
 
-const SuggestionBox: React.FC = () => {
+interface GetSuggestionProps {
+  nutrition: NutritionData[];
+}
+
+const SuggestionBox: React.FC<GetSuggestionProps> = ({ nutrition }) => {
   const [suggestion, setSuggestion] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -9,17 +14,21 @@ const SuggestionBox: React.FC = () => {
   useEffect(() => {
     const fetchSuggestion = async () => {
       try {
-        const response = {data: 'bro you eat too much'};
+        const response = await axios.post('http://localhost:3000/suggestion', {
+          items: nutrition,
+        });
+        console.log('❤️response from suggestion', response.data);
         setSuggestion(response.data);
+        setLoading(false);
       } catch (err) {
+        console.error('Error fetching suggestion:', err);
         setError('Failed to fetch suggestion');
-      } finally {
         setLoading(false);
       }
     };
 
     fetchSuggestion();
-  }, []);
+  }, [nutrition]);
 
   if (loading) {
     return <div>Loading...</div>;

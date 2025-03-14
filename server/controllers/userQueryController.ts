@@ -2,8 +2,7 @@ import OpenAI from 'openai';
 import multer from 'multer';
 
 const openai = new OpenAI({
-  apiKey:
-    
+  apiKey:''
 });
 
 type ServerError = {
@@ -93,9 +92,9 @@ export const getNutritionAnalysis = async (req: any, res, next) => {
       };
       return next(error);
     }
-    const suggestion = response.choices[0].message.content;
+    const suggestion = await response.choices[0].message.content;
     console.log('🍭suggestion: ', suggestion)
-    res.local.suggestion = suggestion;
+    res.locals.suggestion = suggestion;
 
   } catch (error) {
     console.error('Error fetching AI response:', error);

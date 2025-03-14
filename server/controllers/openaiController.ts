@@ -14,7 +14,7 @@ export type ServerError = {
 //   if (!openAIKey) {
 //     throw new Error("The OPENAI_API_KEY environment variable is missing or empty.");
 //   }
-  const openai = new OpenAI({ apiKey:  });
+  const openai = new OpenAI({ apiKey: '' });
 
 export const openAIFoodBreakdown = async (req: any, res, next) => {
     // console log to know if openAIFoodBreakdown has been reached

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import './NutritionTab.css';
-import React, { useState } from 'react';
-import './NutritionTab.css';
 
 interface NutritionData {
   name: string;
@@ -18,15 +16,11 @@ const NutritionTab: React.FC<NutritionTabProps> = ({ nutritionData }) => {
   const [nutrData, setNutrData] = useState<boolean>(true);
 
   return nutrData ? (
-  const [nutrData, setNutrData] = useState<boolean>(true);
-
-  return nutrData ? (
     <div className='nutrition-tab-container'>
-      <table className='nutrition-table'>
       <table className='nutrition-table'>
         <thead>
           <tr>
-            <th>name</th>
+            <th>Name</th>
             <th>Your Intake</th>
             <th>% of Recommended Intake</th>
           </tr>
@@ -34,8 +28,8 @@ const NutritionTab: React.FC<NutritionTabProps> = ({ nutritionData }) => {
         <tbody>
           {nutritionData.map((data, index) => {
             const percentageIntake = Math.floor(
-              (data.userIntake / data.recommendIntake) * 100)
-            ;
+              (data.userIntake / data.recommendIntake) * 100
+            );
             return (
               <tr key={index}>
                 <td>{data.name}</td>
@@ -47,8 +41,6 @@ const NutritionTab: React.FC<NutritionTabProps> = ({ nutritionData }) => {
         </tbody>
       </table>
     </div>
-  ) : (
-    <p>No data yet</p>
   ) : (
     <p>No data yet</p>
   );

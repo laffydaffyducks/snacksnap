@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import React, { useState, useEffect } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import './PieChart.css';
 import './PieChart.css';
 
 ChartJS.register(ArcElement, Tooltip);
@@ -16,10 +14,7 @@ interface PieChartProps {
 const handleInput = (
   nutritionName: string,
   userIntake: number,
-  recommendIntake: number,
-  isOverIntake: boolean
-  recommendIntake: number,
-  isOverIntake: boolean
+  recommendIntake: number
 ) => {
   let data;
   if (userIntake > recommendIntake) {
@@ -61,19 +56,12 @@ const PieChart: React.FC<PieChartProps> = ({
     setIsOverIntake(userIntake > recommendIntake);
   }, [recommendIntake, userIntake]);
 
-  const [isOverIntake, setIsOverIntake] = useState<boolean>(false);
-
-  useEffect(() => {
-    setIsOverIntake(userIntake > recommendIntake);
-  }, [recommendIntake, userIntake]);
-
   return (
     <div>
       <Pie data={handleInput(name, userIntake, recommendIntake)} />
       <h3>
-        Your Intake / Recommended Intake: {`${userIntake}/${recommendIntake}`}
-      </p>
-      </p>
+        Your Intake / Recommended Intake: {`${Math.floor(userIntake)}/${recommendIntake}`}
+      </h3>
     </div>
   );
 };

@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import './UploadImage.css';
-
+import {FoodItem} from '../App.tsx'
 interface DropzoneFile extends File {
   preview: string;
   handle: FileSystemFileHandle | undefined;
 }
 
-interface FoodItem {
-  name: string;
-  portion: string;
-  unit: string;
-}
-
 interface UploadImageProps {
-  uploadFood: (items: FoodItem[]) => void;
+  handleUpdateFood: (items: FoodItem[]) => void;
 }
 
-const UploadImage: React.FC<UploadImageProps> = ({ uploadFood }) => {
+const UploadImage: React.FC<UploadImageProps> = ({ handleUpdateFood }) => {
   const [filePreview, setFilePreview] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
@@ -78,7 +72,7 @@ const UploadImage: React.FC<UploadImageProps> = ({ uploadFood }) => {
         console.log('🍑 data: ', typeof data);
         const parsedData: FoodItem[] = JSON.parse(data)
 
-        uploadFood(parsedData);
+        handleUpdateFood(parsedData);
       } catch (error) {
         console.error('Error processing image.', error);
       }
