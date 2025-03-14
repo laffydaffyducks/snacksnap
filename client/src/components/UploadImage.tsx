@@ -70,7 +70,10 @@ const UploadImage: React.FC<UploadImageProps> = ({ handleUpdateFood }) => {
         const data: string = await response.json();
         console.log('🍎 Image processed successfuly', data);
         console.log('🍑 data: ', typeof data);
+        
+        //this is an object what can I do to make sure it is an array of objects
         const parsedData: FoodItem[] = JSON.parse(data)
+
 
         handleUpdateFood(parsedData);
       } catch (error) {
